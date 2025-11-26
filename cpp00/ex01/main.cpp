@@ -6,12 +6,11 @@
 /*   By: mhamdali <mhamdali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 15:11:46 by mhamdali          #+#    #+#             */
-/*   Updated: 2025/10/27 15:11:47 by mhamdali         ###   ########.fr       */
+/*   Updated: 2025/10/29 12:41:09 by mhamdali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PhoneBook.hpp"
-#include "Contact.hpp"
 
 bool is_printable_string(const std::string &str)
 {

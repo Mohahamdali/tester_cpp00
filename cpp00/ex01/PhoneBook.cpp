@@ -6,28 +6,28 @@
 /*   By: mhamdali <mhamdali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 15:11:40 by mhamdali          #+#    #+#             */
-/*   Updated: 2025/10/27 16:01:21 by mhamdali         ###   ########.fr       */
+/*   Updated: 2025/10/29 14:50:25 by mhamdali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PhoneBook.hpp"
 
-
-std::string truncut(std::string &str)
+std::string truncut(const std::string &str)
 {
     if (str.length() > 10)
-        return str.substr(0, 9) + ".";
+        return str.substr(0, 8) + ".";
     return str;
 }
 
+
+PhoneBook::PhoneBook() : contact_count(0) {}
 
 void PhoneBook::add_contact (std::string &fullname,std::string &number,std::string &nickname,\
     std::string &secret_field, std::string &last_name)
 {
     int index = contact_count % 8;
-    contacts[index].set_fullname_and_number(std::string(fullname), std::string(number),\
-        std::string(nickname),std::string(secret_field), last_name);
-    if (contact_count < 8)
+    contacts[index].set_fullname_and_number(fullname, number,\
+        nickname,secret_field, last_name);
       contact_count++;
     
  }
@@ -43,7 +43,14 @@ void PhoneBook::add_contact (std::string &fullname,std::string &number,std::stri
           << std::setw(10) << "First Name" << "|"
           << std::setw(10) << "Last Name" << "|"
           << std::setw(10) << "Nickname" << std::endl;
-    for (int i = 0; i < contact_count; i++)
+    
+
+    int count_to_show;
+    if (contact_count > 8)
+        count_to_show = 8;
+    else
+        count_to_show = contact_count;
+    for (int i = 0; i < count_to_show; i++)
     {
         std::cout << std::setw(10) << i << "|"
                   << std::setw(10) << truncut(contacts[i].get_name()) << "|"

@@ -6,12 +6,13 @@
 /*   By: mhamdali <mhamdali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 15:11:59 by mhamdali          #+#    #+#             */
-/*   Updated: 2025/11/18 16:02:30 by mhamdali         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:12:00 by mhamdali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <cctype>
+
 
 int main (int ac, char **av)
 {
@@ -29,4 +30,3 @@ int main (int ac, char **av)
     }
     std:: cout << std::endl;
 }
-
