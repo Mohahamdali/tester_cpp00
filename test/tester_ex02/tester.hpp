@@ -3,18 +3,18 @@
 
 
 #include <unistd.h>
-
 #include <sys/wait.h>
 #include <iostream>
 #include <gtest/gtest.h>
-#include <vector>
 #include <cstdio>
 #include <regex>
 #include <algorithm>
 #include <iomanip>
-class UIXPrinter : public ::testing::EmptyTestEventListener {
+
+
+class UIXPrinterEx02 : public ::testing::EmptyTestEventListener {
     void OnTestProgramStart(const ::testing::UnitTest& unit_test) override {
-        std::cout << "\n\033[1;36m========== TEST RUN START (ex01) ==========\033[0m\n";
+        std::cout << "\n\033[1;36m========== TEST RUN START (ex02) ==========\033[0m\n";
         std::cout << "Suites: " << unit_test.total_test_suite_count()
                   << " | Tests: " << unit_test.total_test_count() << "\n\n";
     }
@@ -39,7 +39,7 @@ class UIXPrinter : public ::testing::EmptyTestEventListener {
     }
 
     void OnTestProgramEnd(const ::testing::UnitTest& unit_test) override {
-        std::cout << "\n\033[1;36m========== TEST RUN END (ex01) ==========\033[0m\n";
+        std::cout << "\n\033[1;36m========== TEST RUN END (ex02) ==========\033[0m\n";
         std::cout << "Total run: " << unit_test.test_to_run_count()
                   << " | \033[32mPassed: " << unit_test.successful_test_count() << "\033[0m"
                   << " | \033[31mFailed: " << unit_test.failed_test_count() << "\033[0m\n";
@@ -47,10 +47,6 @@ class UIXPrinter : public ::testing::EmptyTestEventListener {
     }
 };
 
-std::string RUN_PROGRAM(const std::string &cmd, const std::string &input);
-std::string RUN_AND_CLEAN(const std::string &cmd, const std::string &input);
-
-bool check_error_message(std::string &output);
 
 
 #endif

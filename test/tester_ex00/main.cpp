@@ -43,9 +43,14 @@ TEST(test_megaphone, long_argument)
         << RESET_TEXT;
 }
 
-int main ()
-{
-    testing::InitGoogleTest();
-    return RUN_ALL_TESTS(); 
+
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+
+    auto& listeners = ::testing::UnitTest::GetInstance()->listeners();
+    delete listeners.Release(listeners.default_result_printer());
+    listeners.Append(new UIXPrinterEx00);
+
+    return RUN_ALL_TESTS();
 }
 

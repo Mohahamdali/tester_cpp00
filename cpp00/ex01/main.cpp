@@ -6,7 +6,7 @@
 /*   By: mhamdali <mhamdali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 15:11:46 by mhamdali          #+#    #+#             */
-/*   Updated: 2025/10/29 12:41:09 by mhamdali         ###   ########.fr       */
+/*   Updated: 2025/12/04 23:55:18 by mhamdali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,6 @@ int main()
 			break;
 		}
 		else
-			std::cout << "\n\033[1;31mPlease enter a valid command!!\033[0m" << std::endl;
+			std::cout << "\n\033[1;31m error !!\033[0m" << std::endl;
 	}
 }
