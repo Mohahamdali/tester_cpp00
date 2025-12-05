@@ -88,43 +88,76 @@ sudo dnf install gtest-devel
 
 ## 📥 Installation
 
-1. **Clone the repository** into your CPP Module 00 directory:
+1. **Clone the repository** as a sibling to your cpp00 directory:
 
 ```bash
-cd /path/to/your/cpp_module_00
+cd /path/to/your/project
+# Your structure should be:
+# project/
+# ├── cpp00/        (your exercises)
+# └── tester/       (this tester)
+
 git clone https://github.com/yourusername/cpp00-tester.git tester
 cd tester
 ```
+
+**Alternative:** If you want the tester inside cpp00:
+
+```bash
+cd /path/to/your/cpp00
+git clone https://github.com/yourusername/cpp00-tester.git tester
+cd tester
+```
+
+Then update the paths in each `tester_exXX/Makefile` to point to `../../exXX/` instead of `../../cpp00/exXX/`.
 
 2. **Verify your project structure**:
 
 Your directory should look like this:
 
 ```
-cpp_module_00/
-├── ex00/
-│   ├── Makefile
-│   ├── megaphone.cpp
-│   └── ... (your exercise files)
-├── ex01/
-│   ├── Makefile
-│   ├── Contact.cpp
-│   ├── PhoneBook.cpp
-│   └── ... (your exercise files)
-├── ex02/ (optional - bonus)
-│   ├── Makefile
-│   ├── Account.cpp
-│   └── ... (your exercise files)
-└── tester/
+your_project/
+├── cpp00/                    # Your CPP Module 00 exercises
+│   ├── ex00/
+│   │   ├── Makefile
+│   │   ├── megaphone.cpp
+│   │   └── ...
+│   ├── ex01/
+│   │   ├── Makefile
+│   │   ├── Contact.cpp
+│   │   ├── PhoneBook.cpp
+│   │   └── ...
+│   └── ex02/ (optional - bonus)
+│       ├── Makefile
+│       ├── Account.cpp
+│       └── ...
+│
+└── tester/                   # This tester repository
     ├── Makefile
     ├── run_all.cpp
+    ├── README.md
     ├── tester_ex00/
+    │   ├── Makefile
+    │   └── test_ex00.cpp
     ├── tester_ex01/
-    ├── tester_ex02/ (optional)
-    └── README.md
+    │   ├── Makefile
+    │   └── test_ex01.cpp
+    └── tester_ex02/ (optional)
+        ├── Makefile
+        └── test_ex02.cpp
 ```
 
-3. **Make sure your exercises have proper Makefiles** that produce executables with standard names.
+**Important:** The tester expects your exercises to be in `../cpp00/ex00/`, `../cpp00/ex01/`, etc.
+
+3. **Configure paths** (if needed):
+
+If your directory structure is different, edit the Makefiles in each tester directory to point to your exercise locations:
+
+```makefile
+# In tester_ex00/Makefile, tester_ex01/Makefile, etc.
+# Change this line to match your structure:
+CPP00_DIR = ../../cpp00
+```
 
 ---
 
@@ -249,7 +282,27 @@ sudo apt-get install build-essential  # Ubuntu/Debian
 brew install make  # macOS
 ```
 
-#### 3. **"Compilation failed"**
+#### 3. **"Cannot find exercise files"**
+
+**Solution:**
+- Verify your directory structure matches the expected layout
+- Check that you're in the tester directory when running commands
+- Edit the Makefiles to adjust paths if your structure is different:
+
+```bash
+# Check current structure
+ls -la ../cpp00/ex00/
+ls -la ../cpp00/ex01/
+
+# If your structure is different, edit tester Makefiles
+# Example: If cpp00 is in the same directory as tester
+# Edit tester_ex00/Makefile and change:
+# CPP00_DIR = ../../cpp00
+# to:
+# CPP00_DIR = ../cpp00
+```
+
+#### 4. **"Compilation failed"**
 
 **Solution:**
 - Ensure your exercises compile correctly first
@@ -257,7 +310,7 @@ brew install make  # macOS
 - Verify Makefiles in each exercise directory
 - Make sure you're using C++17 standard
 
-#### 4. **"Permission denied"**
+#### 5. **"Permission denied"**
 
 **Solution:**
 ```bash
@@ -266,7 +319,7 @@ chmod +x tester/tester_ex01/tester_ex01
 chmod +x tester/tester_ex02/tester_ex02
 ```
 
-#### 5. **"Tests fail but my program works"**
+#### 6. **"Tests fail but my program works"**
 
 **Solution:**
 - Check exact output format (whitespace, newlines, etc.)
