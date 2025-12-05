@@ -25,7 +25,7 @@ PhoneBook::PhoneBook() : contact_count(0) {}
 void PhoneBook::add_contact (std::string &fullname,std::string &number,std::string &nickname,\
     std::string &secret_field, std::string &last_name)
 {
-    int index = contact_count % 7 ;
+    int index = contact_count % 8 ;
     contacts[index].set_fullname_and_number(fullname, number,\
         nickname,secret_field, last_name);
       contact_count++;

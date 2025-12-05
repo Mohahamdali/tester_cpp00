@@ -12,38 +12,94 @@
 #include <regex>
 #include <algorithm>
 #include <iomanip>
+
 class UIXPrinter : public ::testing::EmptyTestEventListener {
+public:
     void OnTestProgramStart(const ::testing::UnitTest& unit_test) override {
-        std::cout << "\n\033[1;36m========== TEST RUN START (ex01) ==========\033[0m\n";
-        std::cout << "Suites: " << unit_test.total_test_suite_count()
-                  << " | Tests: " << unit_test.total_test_count() << "\n\n";
+        printSeparator('=');
+        std::cout << "\033[1;36mTEST EXECUTION STARTED (ex01)\033[0m\n";
+        printSeparator('-');
+        std::cout << std::left << std::setw(20) << "Test Suites:" 
+                  << unit_test.total_test_suite_count() << "\n";
+        std::cout << std::left << std::setw(20) << "Total Tests:" 
+                  << unit_test.total_test_count() << "\n";
+        printSeparator('=');
+        std::cout << "\n";
     }
 
     void OnTestSuiteStart(const ::testing::TestSuite& suite) override {
-        std::cout << "\033[34m📂 Suite: " << suite.name() << "\033[0m\n";
+        std::cout << "\033[1;34m┌─ Test Suite: " << suite.name() << "\033[0m\n";
     }
 
     void OnTestStart(const ::testing::TestInfo& info) override {
-        std::cout << "   • " << std::setw(40) << std::left << info.name();
+        std::cout << "\033[34m│\033[0m  " << std::setw(50) << std::left 
+                  << info.name() << std::flush;
     }
 
     void OnTestEnd(const ::testing::TestInfo& info) override {
-        auto elapsed = info.result()->elapsed_time();
-        if (info.result()->Passed()) {
-            std::cout << " ... \033[32m✅ PASSED\033[0m "
-                      << "\033[90m(" << elapsed << " ms)\033[0m\n";
+        const auto* result = info.result();
+        const auto elapsed = result->elapsed_time();
+        
+        if (result->Passed()) {
+            std::cout << "\033[32m✓ PASS\033[0m  "
+                      << "\033[90m[" << std::setw(5) << std::right 
+                      << elapsed << " ms]\033[0m\n";
         } else {
-            std::cout << " ... \033[31m❌ FAILED\033[0m "
-                      << "\033[90m(" << elapsed << " ms)\033[0m\n";
+            std::cout << "\033[31m✗ FAIL\033[0m  "
+                      << "\033[90m[" << std::setw(5) << std::right 
+                      << elapsed << " ms]\033[0m\n";
+            
+            for (int i = 0; i < result->total_part_count(); ++i) {
+                const auto& part = result->GetTestPartResult(i);
+                if (part.failed()) {
+                    std::cout << "\033[34m│\033[0m    \033[31m→ " 
+                              << part.file_name() << ":" << part.line_number() 
+                              << "\033[0m\n";
+                    std::cout << "\033[34m│\033[0m      " 
+                              << part.summary() << "\n";
+                }
+            }
         }
     }
 
+    void OnTestSuiteEnd(const ::testing::TestSuite& suite) override {
+        std::cout << "\033[34m└─\033[0m \033[90mCompleted " << suite.name() 
+                  << " (" << suite.successful_test_count() << "/" 
+                  << suite.total_test_count() << " passed)\033[0m\n\n";
+    }
+
     void OnTestProgramEnd(const ::testing::UnitTest& unit_test) override {
-        std::cout << "\n\033[1;36m========== TEST RUN END (ex01) ==========\033[0m\n";
-        std::cout << "Total run: " << unit_test.test_to_run_count()
-                  << " | \033[32mPassed: " << unit_test.successful_test_count() << "\033[0m"
-                  << " | \033[31mFailed: " << unit_test.failed_test_count() << "\033[0m\n";
-        std::cout << "==================================\n";
+        std::cout << "\n";
+        printSeparator('=');
+        std::cout << "\033[1;36mTEST EXECUTION COMPLETED (ex01)\033[0m\n";
+        printSeparator('-');
+        
+        const int total = unit_test.test_to_run_count();
+        const int passed = unit_test.successful_test_count();
+        const int failed = unit_test.failed_test_count();
+        const double pass_rate = total > 0 ? (100.0 * passed / total) : 0.0;
+        
+        std::cout << std::left << std::setw(20) << "Total Tests:" << total << "\n";
+        std::cout << std::left << std::setw(20) << "Passed:" 
+                  << "\033[32m" << passed << "\033[0m\n";
+        std::cout << std::left << std::setw(20) << "Failed:" 
+                  << "\033[31m" << failed << "\033[0m\n";
+        std::cout << std::left << std::setw(20) << "Pass Rate:" 
+                  << std::fixed << std::setprecision(1) << pass_rate << "%\n";
+        
+        printSeparator('=');
+        
+        if (failed == 0) {
+            std::cout << "\033[1;32m✓ All tests passed successfully!\033[0m\n";
+        } else {
+            std::cout << "\033[1;31m✗ Some tests failed. Please review.\033[0m\n";
+        }
+        std::cout << "\n";
+    }
+
+private:
+    void printSeparator(char ch, int width = 70) const {
+        std::cout << std::string(width, ch) << "\n";
     }
 };
 

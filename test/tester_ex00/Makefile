@@ -1,9 +1,9 @@
 
 CXX      := c++
-CXXFLAGS := -std=c++17 -Wall -Wextra -Werror -pthread
+CXXFLAGS := -std=c++17  -pthread
 
 
-GTEST_DIR := ../../googletest
+GTEST_DIR := ../googletest
 INCLUDE   := -I $(GTEST_DIR)/googletest/include
 LIBS      := -L $(GTEST_DIR)/build/lib -lgtest -lgtest_main
 

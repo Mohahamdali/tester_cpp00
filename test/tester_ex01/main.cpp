@@ -201,13 +201,15 @@ TEST(PhonebookInterfaceTests, OverflowContacts_ReplacesOldest)
 }
 
 
-int main(int argc, char **argv)
-{
+int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
-
-    auto& listeners = ::testing::UnitTest::GetInstance()->listeners();
+    
+    ::testing::TestEventListeners& listeners = 
+        ::testing::UnitTest::GetInstance()->listeners();
+    
     delete listeners.Release(listeners.default_result_printer());
-    listeners.Append(new UIXPrinter); 
-
+    
+    listeners.Append(new UIXPrinter());
+    
     return RUN_ALL_TESTS();
 }
