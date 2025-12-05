@@ -15,8 +15,8 @@ LIBS      := -L $(GTEST_DIR)/build/lib -lgtest -lgtest_main
 # Paths and files
 # -------------------------
 EX02_DIR := ../../cpp00/ex02
-EX02_SRC := $(EX02_DIR)/Account.cpp
-EX02_OBJ := $(EX02_SRC:.cpp=.o)
+EX02_SRC := $(EX02_DIR)/Account.cpp $(EX02_DIR)/tests.cpp
+EX02_BIN := $(EX02_DIR)/account_exec
 
 TEST_SRC := main.cpp test_uti.cpp
 TEST_OBJ := $(TEST_SRC:.cpp=.o)
@@ -25,14 +25,21 @@ TEST_BIN := TESTER_EX02
 # -------------------------
 # Default target
 # -------------------------
-all: $(TEST_BIN)
+all: $(EX02_BIN) $(TEST_BIN)
 
 # -------------------------
-# Compile the tester (links with Account.o)
+# Compile ex02 program (student's)
 # -------------------------
-$(TEST_BIN): $(TEST_OBJ) $(EX02_OBJ)
-	@echo "Compiling tester for ex02..."
-	$(CXX) $(CXXFLAGS) $(INCLUDE) $^ $(LIBS) -o $@
+$(EX02_BIN): $(EX02_SRC)
+	@echo "Compiling ex02 program..."
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+# -------------------------
+# Compile tester
+# -------------------------
+$(TEST_BIN): $(TEST_OBJ)
+	@echo "Compiling tester..."
+	$(CXX) $(CXXFLAGS) $(INCLUDE) $(TEST_OBJ) $(LIBS) -o $@
 
 # -------------------------
 # Compile .cpp -> .o
@@ -52,11 +59,16 @@ test: all
 # -------------------------
 clean:
 	@echo "Cleaning object files..."
-	rm -f $(TEST_OBJ) $(EX02_OBJ)
+	rm -f $(TEST_OBJ)
 
 # -------------------------
 # Clean everything
 # -------------------------
 fclean: clean
 	@echo "Cleaning binaries..."
-	rm -f $(TEST_BIN)
+	rm -f $(TEST_BIN) $(EX02_BIN)
+
+# -------------------------
+# Rebuild
+# -------------------------
+re: fclean all

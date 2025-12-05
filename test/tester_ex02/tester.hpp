@@ -10,7 +10,7 @@
 #include <regex>
 #include <algorithm>
 #include <iomanip>
-
+#include <fstream>
 
 class UIXPrinterEx02 : public ::testing::EmptyTestEventListener {
     void OnTestProgramStart(const ::testing::UnitTest& unit_test) override {
@@ -47,6 +47,7 @@ class UIXPrinterEx02 : public ::testing::EmptyTestEventListener {
     }
 };
 
-
-
+std::string RUN_PROGRAME(const std::string &cmd);
+std::string  file_log ();
+void clean_date (std::string &output_date);
 #endif

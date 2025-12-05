@@ -1,6 +1,39 @@
 #include "tester.hpp"
 
 
+void clean_date (std::string &output_date)
+{
+    size_t pos = output_date.find("]");
+    if (pos != std::string::npos)
+    {
+        output_date.erase(0, pos + 1);
+    }
+}
+
+std::string  file_log ()
+{
+    std::ifstream file_read ("19920104_091532.log");
+    if (!file_read.is_open())
+        return "ERROR OPEN FILE\n";
+    std::string line;
+
+   std::vector <std::string> container;
+    while (getline(file_read,line))
+    {
+        container.push_back(line + "\n");
+    }
+
+    std::string output ;
+    std::string clean;
+    for (unsigned int i = 0; i < container.size(); i++ )
+    {
+        clean_date(container[i]);
+        output += container[i];
+    }
+    return output;
+}
+
+
 
 
 std::string RUN_PROGRAME(const std::string &cmd)
@@ -18,7 +51,10 @@ std::string RUN_PROGRAME(const std::string &cmd)
 
     std::string output;
     for (unsigned int i = 0; i < buffer.size(); i++)
+    {
+        clean_date(buffer[i]);
         output += buffer[i];
+    }
 
     return output;
 }

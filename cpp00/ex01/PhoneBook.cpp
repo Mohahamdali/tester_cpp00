@@ -6,7 +6,7 @@
 /*   By: mhamdali <mhamdali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 15:11:40 by mhamdali          #+#    #+#             */
-/*   Updated: 2025/12/05 00:50:16 by mhamdali         ###   ########.fr       */
+/*   Updated: 2025/12/05 21:38:01 by mhamdali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ PhoneBook::PhoneBook() : contact_count(0) {}
 void PhoneBook::add_contact (std::string &fullname,std::string &number,std::string &nickname,\
     std::string &secret_field, std::string &last_name)
 {
-    int index = contact_count % 8 ;
+    int index = contact_count % 7 ;
     contacts[index].set_fullname_and_number(fullname, number,\
         nickname,secret_field, last_name);
       contact_count++;

@@ -19,8 +19,8 @@ std::string RUN_PROGRAM(const std::string &cmd, const std::string &input)
         close(in_fd[1]);
         close(out_fd[0]);
 
-        char *argv[] = {(char *)cmd.c_str(), nullptr};
-        char *env[] = {nullptr};
+        char *argv[] = {(char *)cmd.c_str(), NULL};
+        char *env[] = {NULL};
         execve(cmd.c_str(), argv, env);
 
         exit(1);  
