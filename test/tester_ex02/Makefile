@@ -1,72 +1,59 @@
-
 CXX      := c++
-CXXFLAGS := -std=c++17  -pthread
+CXXFLAGS := -std=c++17 -pthread
 
-# -------------------------
-# GoogleTest paths
-# -------------------------
 GTEST_DIR := ../googletest
 INCLUDE   := -I $(GTEST_DIR)/googletest/include
 LIBS      := -L $(GTEST_DIR)/build/lib -lgtest -lgtest_main
 
-# -------------------------
-# Paths and files
-# -------------------------
-EX02_DIR := ../../cpp00/ex02
-EX02_SRC := $(EX02_DIR)/Account.cpp $(EX02_DIR)/tests.cpp
-EX02_BIN := $(EX02_DIR)/account_exec
+EX01_DIR := ../../cpp00/ex01
+EX01_BIN := $(EX01_DIR)/phonebook
 
-TEST_SRC := main.cpp test_uti.cpp
+
+EX01_SRC := $(filter-out %test.cpp %Test.cpp, $(wildcard $(EX01_DIR)/*.cpp))
+
+ifeq ($(EX01_SRC),)
+    EX01_SRC := $(filter-out %test.cpp %Test.cpp, $(wildcard $(EX01_DIR)/**/*.cpp))
+endif
+
+TEST_SRC := main.cpp test_utils.cpp
 TEST_OBJ := $(TEST_SRC:.cpp=.o)
-TEST_BIN := TESTER_EX02
+TEST_BIN := TESTER_EX01
 
-# -------------------------
-# Default target
-# -------------------------
-all: $(EX02_BIN) $(TEST_BIN)
+.PHONY: all test clean fclean re debug
 
-# -------------------------
-# Compile ex02 program (student's)
-# -------------------------
-$(EX02_BIN): $(EX02_SRC)
-	@echo "Compiling ex02 program..."
-	$(CXX) $(CXXFLAGS) $^ -o $@
+all: check_sources $(EX01_BIN) $(TEST_BIN)
 
-# -------------------------
-# Compile tester
-# -------------------------
+check_sources:
+	@if [ -z "$(EX01_SRC)" ]; then \
+		echo "ERROR: No source files found in $(EX01_DIR)"; \
+		exit 1; \
+	fi
+
+$(EX01_BIN): $(EX01_SRC)
+	@echo "Building ex01 with: $(notdir $(EX01_SRC))"
+	@$(CXX) $(CXXFLAGS) $^ -o $@
+
 $(TEST_BIN): $(TEST_OBJ)
-	@echo "Compiling tester..."
-	$(CXX) $(CXXFLAGS) $(INCLUDE) $(TEST_OBJ) $(LIBS) -o $@
+	@echo "Building tester..."
+	@$(CXX) $(CXXFLAGS) $(INCLUDE) $(TEST_OBJ) $(LIBS) -o $@
 
-# -------------------------
-# Compile .cpp -> .o
-# -------------------------
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -o $@
+	@$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -o $@
 
-# -------------------------
-# Run the tester
-# -------------------------
 test: all
 	@echo "Running tests..."
-	./$(TEST_BIN)
+	@./$(TEST_BIN)
 
-# -------------------------
-# Clean object files
-# -------------------------
 clean:
-	@echo "Cleaning object files..."
-	rm -f $(TEST_OBJ)
+	@rm -f $(TEST_OBJ)
 
-# -------------------------
-# Clean everything
-# -------------------------
 fclean: clean
-	@echo "Cleaning binaries..."
-	rm -f $(TEST_BIN) $(EX02_BIN)
+	@rm -f $(TEST_BIN) $(EX01_BIN)
 
-# -------------------------
-# Rebuild
-# -------------------------
 re: fclean all
+
+debug:
+	@echo "Exercise directory: $(EX01_DIR)"
+	@echo "Detected files: $(notdir $(EX01_SRC))"
+	@echo "Full paths:"
+	@echo "$(EX01_SRC)" | tr ' ' '\n'

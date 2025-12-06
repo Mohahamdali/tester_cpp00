@@ -1,23 +1,22 @@
-CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
-SRC = main.cpp Contact.cpp PhoneBook.cpp
-OBJ = $(SRC:.cpp=.o)
-NAME = iphonix
+SRCFL = PhoneBook.cpp Contact.cpp
 
-all: $(NAME)
+OBJFL = $(SRCFL:.cpp=.o)
 
-$(NAME): $(OBJ)
-	$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
+NAME = phonebook
+FLAGS = -Wall -Wextra -Werror -std=c++98
+CPP = c++
+RM = rm -rf
 
-%.o: %.cpp Contact.hpp PhoneBook.hpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+all : $(NAME)
+
+$(NAME): $(OBJFL)
+	$(CPP) $(FLAGS) $^ -o $@
+
+%.o : %.cpp PhoneBook.hpp Contact.hpp
+	$(CPP) -c $(FLAGS) $< -o $@
 
 clean:
-	rm -f $(OBJ)
-
-fclean: clean
-	rm -f $(NAME)
-
+	$(RM) $(OBJFL)
+fclean : clean
+	$(RM) $(NAME)
 re: fclean all
-
-.PHONY: all clean fclean re

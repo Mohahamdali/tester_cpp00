@@ -1,97 +1,142 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   PhoneBook.cpp                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mhamdali <mhamdali@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/27 15:11:40 by mhamdali          #+#    #+#             */
-/*   Updated: 2025/12/05 21:38:01 by mhamdali         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "PhoneBook.hpp"
+#include <stdio.h>
 
-std::string truncut(const std::string &str)
+int is_ft(std::string str, char action)
 {
-    if (str.length() > 10)
-        return str.substr(0, 8) + ".";
-    return str;
+    int i = 0;
+    int nsp = 0;
+    if (action == 'P')
+    {
+        while(str[i])
+        {
+            if (!isprint(str[i]))
+                return 2;
+            if (!nsp && !isspace(str[i]))
+                nsp = 1;
+            i++;
+        }
+    }
+    else if (action == 'D')
+    {
+        while(str[i])
+        {
+            if (!isdigit(str[i]))
+                return 1;
+            i++;
+        }
+    }
+    if (!nsp)
+        return 1;
+    return 0;
 }
 
-
-PhoneBook::PhoneBook() : contact_count(0) {}
-
-void PhoneBook::add_contact (std::string &fullname,std::string &number,std::string &nickname,\
-    std::string &secret_field, std::string &last_name)
+int PhoneBook::choose(std::string input, int n, char c)
 {
-    int index = contact_count % 8 ;
-    contacts[index].set_fullname_and_number(fullname, number,\
-        nickname,secret_field, last_name);
-      contact_count++;
-    
- }
+    int i = -1;
+    int num = 0;
+    static int sequence;
+    static int save;
+    std::string str;
 
- void PhoneBook::search_contact()
- {
-    if (contact_count == 0)
+    if (save < sequence)
+        save = sequence;
+    if (c == 'A')
     {
-        std::cout << "\033[1;31mNo contacts to display.\033[0m\n";
-        return;
+        if (sequence == 8)
+            sequence = 0;
+        contact[sequence].add(input, n);
+        if (n == 5)
+        {
+            // printf("SEQ:%d - SAVE%d\n", sequence, save);
+            sequence++;
+        }
     }
-    std::cout << std::setw(10) << "Index" << "|"
-          << std::setw(10) << "First Name" << "|"
-          << std::setw(10) << "Last Name" << "|"
-          << std::setw(10) << "Nickname" << std::endl;
-    
+    else if (c == 'S')
+    {
+        std::cout << "\n+-------------------------------------------+" << std::endl;
+        std::cout << "|               Contacts List               |" << std::endl;
+        std::cout << "---------------------------------------------" << std::endl;
+        std::cout << "|Contact Nu|First Name|SecondName| NickName |" << std::endl;
+        while (++i < save)
+            contact[i].search(i, 0);
+        std::cout << "+-------------------------------------------+" << std::endl;
+        if (!save)
+            return(std::cout << "Your Contact List is empty!\n" << std::endl, 0);
+        std::cout << "\nEnter the contact number: ";
+        getline(std::cin, str);
+        if (std::cin.eof())
+            return 1;
+        num = atoi(str.c_str());
+        if (str.length() > 1 || num < 1 || num > 8 || num > save)
+            return (std::cout << "Error: enter a valid contact number." << std::endl, 0);
+        contact[num - 1].search(num, 1);
+    }
+    return 0;
+}
 
-    int count_to_show;
-    if (contact_count > 8)
-        count_to_show = 8;
-    else
-        count_to_show = contact_count;
-    for (int i = 0; i < count_to_show; i++)
+int push_to_enter(std::string input, PhoneBook *pb, int n)
+{
+    int action = 0;
+
+    getline(std::cin, input);
+    if (std::cin.eof())
     {
-        std::cout << std::setw(10) << i << "|"
-                  << std::setw(10) << truncut(contacts[i].get_name()) << "|"
-                  << std::setw(10) << truncut(contacts[i].get_last_name()) << "|"
-                  << std::setw(10) << truncut(contacts[i].get_nick()) << std::endl;
+        std::cout << std::endl;
+        exit(0);
     }
-    int index;
-    while (true)
+    action = is_ft(input, 'P');
+    if (action || !input.compare(""))
     {
-        std::cout << "Enter index of contact to view: ";
-        std::string line;
-        if (!(std::getline(std::cin, line)))
-            break;
-        if (line.empty())
-        {
-            std::cout << "Invalid input! Must enter a number.\n";
-            continue;
-        }
-        bool valid = true;
-        for (size_t i = 0; i < line.size();i++)
-        {
-            char c = line[i];
-            if (!isdigit(c))
-            {
-                valid = false;
-                break;
-            }
-        }
-        if (!valid)
-        {
-            std::cout << "Invalid input! Must enter a number.\n";
-            continue;
-        }
-        std::stringstream ss(line);
-        ss >> index;
-        if (index < 0 || index >= contact_count)
-        {
-            std::cout << "Index out of range! Try again.\n";
-            continue;
-        }
-        contacts[index].print();
-        break;
+        if (action == 1 || !action)
+            std::cout << "Error: fields cannot be empty." << std::endl;
+        else if (action == 2)
+            std::cout << "Error: Non-printable characters are not allowed." << std::endl;
+        return (1);
     }
- }
+    pb->choose(input, n, 'A');
+    return 0;
+}
+
+int main()
+{
+    std::string name;
+    std::string str;
+    PhoneBook pb;
+    int sq = 0;
+
+    while (1)
+    {
+        std::cout << "Choose a command [ ADD | SEARCH | EXIT ]: ";
+        getline(std::cin, name);
+        if (std::cin.eof())
+            break ;
+        if (!name.compare("ADD"))
+        {
+            std::cout << "first name: ";
+            if (push_to_enter(str, &pb, 1))
+                continue;
+            std::cout << "second name: ";
+            if (push_to_enter(str, &pb, 2))
+                continue;
+            std::cout << "nick name: ";
+            if (push_to_enter(str, &pb, 3))
+                continue;
+            std::cout << "phone number: ";
+            if (push_to_enter(str, &pb, 4))
+                continue;
+            std::cout << "dark secret: ";
+            if (push_to_enter(str, &pb, 6))
+                continue;
+            sq++;
+        }
+        else if (!name.compare("SEARCH"))
+        {
+            if (pb.choose(str, 0, 'S'))
+                break ;
+        }
+        else if (!name.compare("EXIT"))
+            return 0;
+    }
+    std::cout << std::endl;
+}

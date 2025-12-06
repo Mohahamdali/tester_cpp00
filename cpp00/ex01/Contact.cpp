@@ -1,55 +1,68 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Contact.cpp                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mhamdali <mhamdali@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/27 15:11:54 by mhamdali          #+#    #+#             */
-/*   Updated: 2025/10/29 12:25:11 by mhamdali         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "Contact.hpp"
 
-#include "PhoneBook.hpp"
-
-
-void Contact::print()
+void limited_print(std::string str, int length)
 {
-    std:: cout  << "Name: " << name << std:: endl  << "last_name: "  << last_name << std::endl << "number: " << number << std:: endl \
-        << "Nickanme: " << nickname << std:: endl << "Secret fieled: " << darkest_secret << std:: endl; 
+    int i = -1;
+    int print_line = 10 - length;
+
+    if (print_line >= 0)
+    {
+        while (print_line--)
+            std::cout << ' ';
+        std::cout << str;
+    }
+    else
+    {
+        while (++i < 9)
+            std::cout << str[i];
+        std::cout << '.';
+    }
+    std::cout << '|';
 }
 
-void Contact::set_fullname_and_number (const std::string &name1,const std::string &num,const std::string &nick, \
-    const std::string &secret, const std::string &last_name1)
+void    Contact::search(int n, int action)
 {
-    name = name1;
-    last_name = last_name1;
-    number = num;
-    nickname = nick;
-    darkest_secret = secret;
+    if (!action)
+    {
+        std::cout << "|         " << n + 1 << "|";
+        limited_print(first_name, first_name.length());
+        limited_print(second_name, second_name.length());
+        limited_print(nick_name, nick_name.length());
+        std::cout << std::endl;
+    }
+    else
+    {
+        std::cout << "\n==== contact Information ====" << std::endl;
+        std::cout << "First Name:   [" << first_name << ']' << std::endl;
+        std::cout << "Second Name:  [" << second_name << ']' << std::endl;
+        std::cout << "NickName:     [" << nick_name << ']' << std::endl;
+        std::cout << "Phone Number: [" << phone_number << ']' << std::endl;
+        std::cout << "Dark Secret:  [" << dark_secret << ']' << std::endl;
+        std::cout << "=============================" << std::endl;
+    }
+
 }
 
- std::string Contact::get_name()
- {
-    return (name);
- }
-
- std::string Contact::get_last_name ()
- {
-    return  (last_name);
- }
-
- std::string Contact::get_nick ()
- {
-    return (nickname);
- }
-
- std::string Contact::get_number()
- {
-    return (number);
- }
-
- std::string Contact::get_secret ()
- {
-    return (darkest_secret);
- }
+void    Contact::add(std::string input, int n)
+{
+    switch (n)
+    { 
+        case 1:
+            first_name = input;
+            break;
+        case 2:
+            second_name = input;
+            break;
+        case 3:
+            nick_name = input;
+            break;
+        case 4:
+            phone_number = input;
+            break;
+        case 5:
+            dark_secret = input;
+            break;
+        default:
+            break;
+    }
+}
