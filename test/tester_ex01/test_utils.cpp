@@ -84,7 +84,7 @@ bool check_error_message(std::string &output)
         "timeout", "overflow", "underflow",
         "out of range", "out of memory",
 
-        "warning", "deprecated", "notice"
+        "warning", "deprecated", "notice" , "!!"
     };
 
     for (const auto &kw : keywords) {

@@ -6,7 +6,7 @@ INCLUDE   := -I $(GTEST_DIR)/googletest/include
 LIBS      := -L $(GTEST_DIR)/build/lib -lgtest -lgtest_main
 
 EX01_DIR := ../../cpp00/ex01
-EX01_BIN := $(EX01_DIR)/phonebook
+EX01_BIN := $(EX01_DIR)/iphonix
 
 EX01_SRC := $(wildcard $(EX01_DIR)/*.cpp)
 
