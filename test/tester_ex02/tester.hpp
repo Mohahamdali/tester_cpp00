@@ -12,6 +12,9 @@
 #include <iomanip>
 #include <fstream>
 
+#ifndef LOG_FILE_PATH
+#define LOG_FILE_PATH "dummy_path_for_ide"
+#endif
 class UIXPrinterEx02 : public ::testing::EmptyTestEventListener {
 public:
     void OnTestProgramStart(const ::testing::UnitTest& unit_test) override {

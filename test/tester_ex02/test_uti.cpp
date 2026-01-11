@@ -10,11 +10,18 @@ void clean_date (std::string &output_date)
     }
 }
 
+
 std::string  file_log ()
 {
-    std::ifstream file_read ("19920104_091532.log");
+
+    std::ifstream file_read(LOG_FILE_PATH);
     if (!file_read.is_open())
+    {
+        std::cout << "DEBUG: Failed to open file!" << std::endl;
+        std::cout << "DEBUG: Current directory: ";
+        system("pwd");
         return "ERROR OPEN FILE\n";
+    }
     std::string line;
 
    std::vector <std::string> container;
