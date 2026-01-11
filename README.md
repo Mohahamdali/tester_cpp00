@@ -83,7 +83,7 @@ cd test
 ls
 ```
 
-<img src="Screenshot from 2026-01-11 05-59-57.png" alt="Directory Structure">
+![Directory Structur](https://github.com/Mohahamdali/tester_cpp00/blob/a718f840004f8275bacb430f9ec3d323c09a863e/images/Screenshot%20from%202026-01-11%2005-59-57.png)
 
 Navigate to test directory:
 
@@ -91,7 +91,7 @@ Navigate to test directory:
 cd test
 ```
 
-<img src="Screenshot from 2026-01-11 06-00-21.png" alt="Navigate to test">
+![Navigate to test](Screenshot%20from%202026-01-11%2006-00-21.png)
 
 View available test directories:
 
@@ -99,7 +99,7 @@ View available test directories:
 ls
 ```
 
-<img src="Screenshot from 2026-01-11 06-01-11.png" alt="Test directories">
+![Test directories](Screenshot%20from%202026-01-11%2006-01-11.png)
 
 Create build directory and configure with CMake:
 
@@ -108,7 +108,7 @@ mkdir build && cd build
 cmake ..
 ```
 
-<img src="Screenshot from 2026-01-11 06-01-26.png" alt="CMake Configuration">
+![CMake Configuration](Screenshot%20from%202026-01-11%2006-01-26.png)
 
 Build the project:
 
@@ -116,11 +116,11 @@ Build the project:
 make run_all
 ```
 
-<img src="Screenshot from 2026-01-11 06-02-02.png" alt="Build Process">
+![Build Process](Screenshot%20from%202026-01-11%2006-02-02.png)
 
 Test execution results showing all test cases with pass/fail status:
 
-<img src="Screenshot from 2026-01-11 06-04-24.png" alt="Test Execution Results">
+![Test Execution Results](Screenshot%20from%202026-01-11%2006-04-24.png)
 
 The output displays all test cases with pass/fail status and execution time for each test.
 
