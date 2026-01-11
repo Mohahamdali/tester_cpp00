@@ -76,32 +76,53 @@ ctest --verbose
 
 ## Usage Example
 
-Navigate to the test directory:
+Navigate to the test directory and view the structure:
+
+```bash
+cd test
+ls
+```
+
+![Directory Structure](Screenshot%20from%202026-01-11%2005-59-57.png)
+
+Navigate to test directory:
 
 ```bash
 cd test
 ```
 
-![Directory Structure](code_tester.png)
+![Navigate to test](Screenshot%20from%202026-01-11%2006-00-21.png)
 
-Create build directory and configure:
+View available test directories:
+
+```bash
+ls
+```
+
+![Test directories](Screenshot%20from%202026-01-11%2006-01-11.png)
+
+Create build directory and configure with CMake:
 
 ```bash
 mkdir build && cd build
 cmake ..
 ```
 
-![CMake Configuration](code_tester.png)
+![CMake Configuration](Screenshot%20from%202026-01-11%2006-01-26.png)
 
-Run the tests:
+Build the project:
 
 ```bash
 make run_all
 ```
 
-![Test Results](code_tester.png)
+![Build Process](Screenshot%20from%202026-01-11%2006-02-02.png)
 
-The output shows all test cases with pass/fail status and execution time.
+Test execution results showing all test cases with pass/fail status:
+
+![Test Execution Results](Screenshot%20from%202026-01-11%2006-04-24.png)
+
+The output displays all test cases with pass/fail status and execution time for each test.
 
 ## Test Coverage
 
