@@ -83,7 +83,7 @@ cd test
 ls
 ```
 
-![Directory Structure](Screenshot%20from%202026-01-11%2005-59-57.png)
+![Directory Structure](view-source:https://github.com/Mohahamdali/tester_cpp00/blob/main/images/Screenshot%20from%202026-01-11%2005-59-57.png)
 
 Navigate to test directory:
 
