@@ -79,7 +79,7 @@ ctest --verbose
 Navigate to the test directory and view the structure:
 
 ```bash
-cd test
+cd tester
 ls
 ```
 
